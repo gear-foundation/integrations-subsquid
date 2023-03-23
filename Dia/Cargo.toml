@@ -1,6 +1,7 @@
 [workspace]
-
+resolver = "2"
 members = [
     "randomness-oracle",
-    "randomness-oracle-io"
+    "randomness-oracle-io",
+    "randomness-oracle-state",
 ]

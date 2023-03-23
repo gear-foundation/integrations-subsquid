@@ -1,5 +1,4 @@
-use codec::{Decode, Encode};
-use gstd::{prelude::*, TypeInfo};
+use gstd::{prelude::*, Decode, Encode, TypeInfo};
 
 /// Used to represent high and low parts of unsigned 256-bit integer.
 pub type RandomSeed = (u128, u128);

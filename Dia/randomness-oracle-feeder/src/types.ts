@@ -1,5 +1,6 @@
 export interface Random {
-  randomness: Uint8Array[];
-  signature: string;
-  prevSignature: string;
+    round: number;
+    randomness: Uint8Array[];
+    signature: string;
+    prevSignature: string;
 }

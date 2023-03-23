@@ -1,6 +1,6 @@
 mod utils;
 
-use codec::Encode;
+use gstd::prelude::*;
 use gtest::System;
 use randomness_oracle_io::{state::*, *};
 use utils::*;
@@ -18,29 +18,14 @@ fn success_init() {
     );
     assert!(result.log().is_empty());
 
-    let meta_result: MetaResponse = oracle_program.meta_state(MetaQuery::GetOwner).unwrap();
-    match meta_result {
-        MetaResponse::Owner(owner) => assert_eq!(owner, OWNER.into()),
-        _ => panic!("Invalid MetaResponse!"),
-    }
+    let oracle_state: RandomnessOracle = oracle_program
+        .read_state()
+        .expect("Unexpected invalid oracle state.");
 
-    let meta_result: MetaResponse = oracle_program.meta_state(MetaQuery::GetManager).unwrap();
-    match meta_result {
-        MetaResponse::Manager(manager) => assert_eq!(manager, MANAGER.into()),
-        _ => panic!("Invalid MetaResponse!"),
-    }
-
-    let meta_result: MetaResponse = oracle_program.meta_state(MetaQuery::GetValues).unwrap();
-    match meta_result {
-        MetaResponse::Values(values) => assert!(values.is_empty()),
-        _ => panic!("Invalid MetaResponse!"),
-    }
-
-    let meta_result: MetaResponse = oracle_program.meta_state(MetaQuery::GetLastRound).unwrap();
-    match meta_result {
-        MetaResponse::LastRound(last_round) => assert_eq!(last_round, 0),
-        _ => panic!("Invalid MetaResponse!"),
-    }
+    assert_eq!(oracle_state.owner, OWNER.into());
+    assert_eq!(oracle_state.manager, MANAGER.into());
+    assert!(oracle_state.values.is_empty());
+    assert_eq!(oracle_state.last_round, 0);
 }
 
 #[test]
